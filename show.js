@@ -1,11 +1,13 @@
 var url = require('url')
 
 var index = require('./index');
+var board = require('./board');
 var header = require('./header');
 var footer = require('./footer');
 
 var contentMap = {
-    '/': index
+    '/': index,
+    '/board': board
 };
 
 function showPage(request, response) {
@@ -13,7 +15,7 @@ function showPage(request, response) {
 
     if (contentMap[pathName]) {
         response.writeHead(200, { 'Content-Type': 'text/html' });
-        header.write(response, contentMap[pathName].title());
+        header.write(response, contentMap[pathName].title);
         response.write(contentMap[pathName].body());
         footer.write(response);
         response.end();

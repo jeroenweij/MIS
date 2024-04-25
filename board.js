@@ -3,7 +3,7 @@ var fs = require('fs');
 var htmlFile;
 var title = 'MIS';
 
-fs.readFile('./templates/body.html', "utf8", function (err, data) {
+fs.readFile('./templates/board.html', "utf8", function (err, data) {
     if (err) {
         throw err;
     }

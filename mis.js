@@ -9,7 +9,7 @@ console.log('Server has started');
 
 function onRequest(request, response) {
     var pathName = url.parse(request.url).pathname
-    console.log('pathname' + pathName);
+    console.log('pathname ' + pathName);
 
     if (!show.showPage(request, response)) {
         var path = './www' + request.url;
