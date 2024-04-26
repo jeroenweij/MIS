@@ -1,8 +1,8 @@
-var http = require('http')
-var url = require('url')
-var fs = require('fs');
+import http from 'node:http';
+import url from 'node:url';
+import fs from 'node:fs';
 
-var show = require('./show');
+import showPage from './show.js';
 
 http.createServer(onRequest).listen(8888);
 console.log('Server has started');
@@ -11,7 +11,7 @@ function onRequest(request, response) {
     var pathName = url.parse(request.url).pathname
     console.log('pathname ' + pathName);
 
-    if (!show.showPage(request, response)) {
+    if (!showPage(request, response)) {
         var path = './www' + request.url;
         fs.readFile(path, function (err, data) {
             if (!err) {

@@ -1,14 +1,16 @@
-var url = require('url')
+import url from 'node:url';
 
-var header = require('./header');
-var footer = require('./footer');
-var BasicPage = require('./basicpage');
-var FileUpload = require('./fileupload');
+import Header from './header.js';
+import Footer from './footer.js';
+import BasicPage from './basicpage.js';
+import FileUpload from './fileupload.js';
 
 var index = new BasicPage('index', 'Welcome');
 var board = new BasicPage('board', 'Welcome');
 var upload = new BasicPage('upload', 'upload');
 var fileupload = new FileUpload('index');
+var header = new Header();
+var footer = new Footer();
 
 var contentMap = {
     '/': index,
@@ -17,7 +19,7 @@ var contentMap = {
     '/fileupload': fileupload
 };
 
-function showPage(request, response) {
+export default function showPage(request, response) {
     var pathName = url.parse(request.url).pathname;
 
     if (contentMap[pathName]) {
@@ -33,5 +35,3 @@ function showPage(request, response) {
     }
     return false;
 }
-
-exports.showPage = showPage;

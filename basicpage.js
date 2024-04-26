@@ -1,13 +1,13 @@
-var fs = require('fs');
+import fs from 'node:fs';
 
-module.exports = class BasicPage {
+export default class BasicPage {
     title = "";
     htmlFile = "";
 
     constructor(html, title) {
         this.title = title;
         var that = this;
-        fs.readFile(`./templates/${html}.html`, "utf8", function (err, data) {
+        fs.readFile(`./html/${html}.html`, "utf8", function (err, data) {
             if (err) {
                 throw err;
             }
