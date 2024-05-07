@@ -5,12 +5,8 @@ export default function  GetConnection() {
         host: "host",
         user: "user",
         port: "port",
-        password: "password"
-    });
-
-    con.connect(function (err) {
-        if (err) throw err;
-        console.log("Connected!");
+        password: "password",
+        database: "database"
     });
 
     return con;
