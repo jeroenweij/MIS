@@ -17,8 +17,9 @@ export default class BasicPage {
         });
     }
 
-    handle(request, response) {
+    handle(request, response, finished) {
         response.write(this.htmlFile);
+        finished();
     }
 
     greetStudent() {

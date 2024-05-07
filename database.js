@@ -1,7 +1,8 @@
 import GetConnection from './dbconnection.js';
 
-export default function  Query(sql) {
+export default function Query(sql, callback) {
     var con = GetConnection();
+    var result;
 
     con.connect(function (err) {
         if (err) throw err;
@@ -9,8 +10,9 @@ export default function  Query(sql) {
 
         con.query(sql, function (err, result) {
             if (err) throw err;
-            console.log("1 record inserted");
-          });
-          
+            // console.log(result);
+            callback(result);
+        });
+
     });
 }

@@ -5,7 +5,7 @@ export default class FileUpload extends BasicPage {
         super(html, 'Uploading..');
     }
 
-    async handle(request, response) {
+    async handle(request, response, finished) {
         if (request.method === 'POST') {
             let body = await this.getPageData(request);
 
@@ -55,7 +55,7 @@ export default class FileUpload extends BasicPage {
             }
 
         }
-        super.handle(request, response);
+        finished();
     }
 
     getPageData(request) {
