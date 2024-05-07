@@ -4,8 +4,9 @@ import Header from './header.js';
 import Footer from './footer.js';
 import BasicPage from './basicpage.js';
 import FileUpload from './fileupload.js';
+import Planning from './planning.js';
 
-var index = new BasicPage('index', 'Welcome');
+var index = new Planning('index');
 var board = new BasicPage('board', 'Welcome');
 var upload = new BasicPage('upload', 'upload');
 var fileupload = new FileUpload('index');

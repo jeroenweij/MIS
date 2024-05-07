@@ -17,10 +17,6 @@ export default class BasicPage {
         });
     }
 
-    // set variable(value) {
-    //     this.variable = value;
-    // }
-
     handle(request, response) {
         response.write(this.htmlFile);
     }
