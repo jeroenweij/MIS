@@ -8,7 +8,7 @@ export default class Planning extends BasicPage {
     }
 
     handle(request, response, finished) {
-        Query("SELECT Name from Personel;", function (personel) {
+        Query("SELECT Name from Personel ODER BY Order, Id;", function (personel) {
 
             for (let value of personel) {
                 console.log(value);

@@ -16,7 +16,6 @@ CREATE TABLE `Activities` (
   `Id` smallint NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
   `Export` tinyint DEFAULT '1',
-  `Status` tinyint DEFAULT '0',
   `StartDate` date NOT NULL,
   `EndDate` date NOT NULL,
   `BudgetHours` smallint DEFAULT NULL,
@@ -25,7 +24,19 @@ CREATE TABLE `Activities` (
   `OopSpend` int DEFAULT NULL,
   `Rate` smallint DEFAULT NULL,
   `WBSO` varchar(20) DEFAULT NULL,
+  `Key` smallint NOT NULL,
   PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `Hours`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Hours` (
+  `Project` smallint DEFAULT NULL,
+  `Activity` smallint DEFAULT NULL,
+  `Person` smallint DEFAULT NULL,
+  `Hours` int DEFAULT NULL,
+  UNIQUE KEY `hoursIndex` (`Project`,`Activity`,`Person`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `Personel`;
@@ -34,14 +45,16 @@ DROP TABLE IF EXISTS `Personel`;
 CREATE TABLE `Personel` (
   `Id` smallint NOT NULL AUTO_INCREMENT,
   `Email` varchar(64) NOT NULL,
-  `Name` varchar(16) DEFAULT NULL,
+  `Name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `Startdate` date NOT NULL DEFAULT '2023-01-01',
   `WBSO` tinyint(1) DEFAULT '0',
   `Fultime` tinyint DEFAULT '100',
-  `Type` tinyint DEFAULT NULL,
+  `Type` tinyint DEFAULT '1',
+  `Number` smallint DEFAULT NULL,
+  `Order` smallint DEFAULT '250',
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Personel_UNIQUE` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=332 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `Projects`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
