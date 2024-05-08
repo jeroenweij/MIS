@@ -36,6 +36,7 @@ CREATE TABLE `Hours` (
   `Activity` smallint DEFAULT NULL,
   `Person` smallint DEFAULT NULL,
   `Hours` int DEFAULT NULL,
+  `Plan` int DEFAULT '0',
   UNIQUE KEY `hoursIndex` (`Project`,`Activity`,`Person`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -51,7 +52,7 @@ CREATE TABLE `Personel` (
   `Fultime` tinyint DEFAULT '100',
   `Type` tinyint DEFAULT '1',
   `Number` smallint DEFAULT NULL,
-  `Order` smallint DEFAULT '250',
+  `Ord` smallint DEFAULT '250',
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Personel_UNIQUE` (`Email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=332 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

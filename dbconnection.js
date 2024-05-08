@@ -1,13 +1,17 @@
 import mysql from 'mysql2'
 
-export default function  GetConnection() {
-    var con = mysql.createConnection({
-        host: "host",
-        user: "user",
-        port: "port",
-        password: "password",
-        database: "database"
-    });
+var con = null;
 
+export default function GetConnection() {
+    if (con == null) {
+        con = mysql.createConnection({
+            host: "host",
+            user: "user",
+            port: "port",
+            password: "password",
+            database: "database",
+            dateStrings: 'date'
+        });
+    }
     return con;
 }

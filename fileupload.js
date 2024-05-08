@@ -1,5 +1,5 @@
 import BasicPage from './basicpage.js';
-import Query from './database.js';
+import Database from './database.js';
 
 function validateEmail(email) {
     var re = /\S+@\S+\.\S+/;
@@ -88,7 +88,7 @@ export default class FileUpload extends BasicPage {
             //console.log(sql);
 
             // Update hours
-            Query(sql, function (data) {
+            Database.Query(sql, function (data) {
                 sql = "INSERT INTO Hours (Project, Activity, Person, Hours) VALUES ";
                 comma = '';
 
@@ -127,7 +127,7 @@ export default class FileUpload extends BasicPage {
 
                 sql += " AS newData ON DUPLICATE KEY UPDATE Hours=newData.Hours;";
                 //console.log(sql);
-                Query(sql, function (data) { });
+                Database.Query(sql, function (data) { });
             });
         }
 
