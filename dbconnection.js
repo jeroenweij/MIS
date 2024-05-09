@@ -5,11 +5,11 @@ var con = null;
 export default function GetConnection() {
     if (con == null) {
         con = mysql.createConnection({
-            host: "host",
-            user: "user",
-            port: "port",
-            password: "password",
-            database: "database",
+            host: "Host",
+            user: "Username",
+            port: "3306",
+            password: "Password",
+            database: "mis",
             dateStrings: 'date'
         });
     }

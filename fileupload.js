@@ -70,7 +70,7 @@ export default class FileUpload extends BasicPage {
 
                 projectdata.push({ project: project, activity: activity, hours: vars.slice(columnoffset) });
             }
-            console.log(projectdata);
+            //console.log(projectdata);
 
             // update personel info
             let sql = "INSERT INTO Personel (Email, Name, Number) VALUES ";
@@ -82,9 +82,21 @@ export default class FileUpload extends BasicPage {
                     }
                     sql += `${comma} ('${emails[i]}', '${names[i]}', ${numbers[i]})`;
                     comma = ',';
+                } else {
+                    numbers[i] = 0;
+                }
+
+                if (isNaN(numbers[i]) || numbers[i] === 0) {
+                    if (numbers[i] === "Totaal Som van Uren") {
+                        numbers[i] = 32750; // Magic number :(
+                    } else {
+                        console.error(`User: ${emails[i]}' does not have a number.`);
+                        // TODO: need to do something here to make this clear to the user
+                    }
                 }
             }
-            sql += " AS newData ON DUPLICATE KEY UPDATE Number=newData.Number, Name=newData.Name;";
+            //sql += " AS newData ON DUPLICATE KEY UPDATE Number=newData.Number, Name=newData.Name;";
+            sql += " ON DUPLICATE KEY UPDATE Number=VALUES(Number), Name=VALUES(Name);";
             //console.log(sql);
 
             // Update hours
@@ -95,25 +107,24 @@ export default class FileUpload extends BasicPage {
                 for (const project of projectdata) {
                     if (project.project === "Eindtotaal") {
                         project.project = 32750; // Magic number :(
+                        project.activity = 1;
+                    }
+
+                    if (isNaN(project.project) || isNaN(project.activity)) {
+                        console.error(`NAN: '${project.project}', '${project.activity}'`);
+                        // TODO: need to do something here to make this clear to the user
+                        continue;
                     }
 
                     for (let i = 0; i < numbers.length; i++) {
                         if (isNaN(numbers[i]) || numbers[i] === 0) {
-                            console.error(`User: ${emails[i]}' does not have a number.`);
-                            // TODO: need to do something here to make this clear to the user
-                            continue;
-                        }
-
-                        if (isNaN(project.project) || isNaN(project.activity)) {
-                            console.error(`NAN: ${project.project}', '${project.activity}', ${numbers[i]}, ${project.hours[i]}`);
-                            // TODO: need to do something here to make this clear to the user
                             continue;
                         }
 
                         let hours = project.hours[i];
                         if (typeof hours === 'string' || hours instanceof String) {
                             hours = hours.replace(/"/g, "");
-                            hours = Number(hours.replace(',', '.'));
+                            hours = Number(hours.replace('.', '').replace(',', '.'));
                             if (isNaN(hours)) {
                                 console.error(`HOURS IS NAN: ${project.hours[i]}`);
                                 continue;
@@ -125,7 +136,8 @@ export default class FileUpload extends BasicPage {
                     }
                 }
 
-                sql += " AS newData ON DUPLICATE KEY UPDATE Hours=newData.Hours;";
+                //sql += " AS newData ON DUPLICATE KEY UPDATE Hours=newData.Hours;";
+                sql += " ON DUPLICATE KEY UPDATE Hours=VALUES(Hours);";
                 //console.log(sql);
                 Database.Query(sql, function (data) { });
             });

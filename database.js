@@ -7,7 +7,7 @@ export default class Database {
 
         con.connect(function (err) {
             if (err) throw err;
-            console.log("Connected!");
+            //console.log("Connected!");
 
             con.query(sql, function (err, result) {
                 if (err) throw err;
@@ -25,7 +25,7 @@ export default class Database {
 
             con.connect(function (err) {
                 if (err) throw err;
-                console.log("Connected!");
+                //console.log("Connected!");
 
                 con.query(sql, function (err, result) {
                     if (err) throw err;

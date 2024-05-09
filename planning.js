@@ -10,7 +10,7 @@ export default class Planning extends BasicPage {
     handle(request, response, finished) {
         Database.Query("SELECT Name, Number from Personel ORDER BY Ord, Id;", function (personel) {
 
-            response.write('<section id="pricing"><div class="container">');
+            response.write('<section><div class="container"><div class="horizontalscrol">');
             response.write(`<table>\n`);
 
             Database.Query("SELECT Activities.Project, Activities.Key, Activities.Name, Activities.BudgetHours, Projects.Name as ProjectName, Personel.Name as Manager FROM Activities LEFT JOIN Projects ON Activities.Project = Projects.Id LEFT JOIN Personel ON Projects.Manager=Personel.Id Where Projects.Status=3;", async function (data) {
@@ -30,7 +30,8 @@ export default class Planning extends BasicPage {
                         response.write(`<th>Realised</th>`);
 
                         for (let person of personel) {
-                            response.write(`<th colspan="2">${person.Name}</th>`);
+                            let firstname = person.Name.split(" ")[0];
+                            response.write(`<th colspan="2">${firstname}</th>`);
                         }
 
                         response.write(`</tr>\n`);
@@ -44,31 +45,38 @@ export default class Planning extends BasicPage {
                     response.write(`<td>${value.Name}</td>`);
                     response.write(`<td>${value.BudgetHours}</td>`);
                     response.write(`<td>${value.BudgetHours}</td>`);
-                    response.write(`<td>${value.BudgetHours}</td>`);
+
+
+                    let data = await Database.QuerySync(`SELECT Hours, Plan, Person FROM Hours WHERE Project=${value.Project} AND Activity=${value.Key}`);
+                    let hourdata = data.find(o => o.Person === 32750);
+                    let realised = 0;
+                    if (hourdata) {
+                        realised = hourdata.Hours / 100;
+                    }
+                    response.write(`<td>${realised}</td>`);
+
                     for (let person of personel) {
-                        let data = await Database.QuerySync(`SELECT Hours, Plan FROM Hours WHERE Person=${person.Number} AND Project=${value.Project} AND Activity=${value.Key} LIMIT 1`);
+                        hourdata = data.find(o => o.Person === person.Number);
                         let hours = 0;
                         let plan = 0;
-                        if (data.length > 0) {
-                            console.log(data[0]);
-                            hours = data[0].Hours / 100;
-                            plan = data[0].Plan / 100;
-                            console.log(hours);
+                        if (hourdata) {
+                            hours = hourdata.Hours / 100;
+                            plan = hourdata.Plan / 100;
                         }
-                        if (hours === 0|| isNaN(hours)) {
+                        if (hours === 0 || isNaN(hours)) {
                             hours = '';
                         }
                         if (plan === 0 || isNaN(plan)) {
                             plan = '';
                         }
-                        console.log(data);
-                        //response.write(`<td><input type="text" id="fname" name="fname" value="${plan}"></td>`);
-                        response.write(`<td>${plan}</td>`);
+
+                        response.write(`<td><input type="text" id="fname" name="fname" value="${plan}" maxlength="4" size="3"></td>`);
+                        //response.write(`<td>${plan}</td>`);
                         response.write(`<td>${hours}</td>`);
                     }
                     response.write(`</tr>\n`);
                 }
-                response.write('</table></ br></ br></div></div>');
+                response.write('</table></ br></ br></div></div></section>');
 
                 finished();
             });
