@@ -38,6 +38,7 @@ td {
 
 .horizontalscrol {
 	overflow-x: scroll;
+	overflow-y: scroll; 
 	width: 100%;
 	white-space: nowrap;
 }

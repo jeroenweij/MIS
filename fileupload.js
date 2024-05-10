@@ -83,16 +83,17 @@ export default class FileUpload extends BasicPage {
                     sql += `${comma} ('${emails[i]}', '${names[i]}', ${numbers[i]})`;
                     comma = ',';
                 } else {
-                    numbers[i] = 0;
+                    if (emails[i] === "Totalen") {
+                        // Totaal aantal per project sla op met magic number, niet ideaal..
+                        numbers[i] = 32750; // Magic number :(
+                    } else {
+                        numbers[i] = 0;
+                    }
                 }
 
                 if (isNaN(numbers[i]) || numbers[i] === 0) {
-                    if (numbers[i] === "Totaal Som van Uren") {
-                        numbers[i] = 32750; // Magic number :(
-                    } else {
-                        console.error(`User: ${emails[i]}' does not have a number.`);
-                        // TODO: need to do something here to make this clear to the user
-                    }
+                    console.error(`User: ${emails[i]}' does not have a number.`);
+                    // TODO: need to do something here to make this clear to the user
                 }
             }
             //sql += " AS newData ON DUPLICATE KEY UPDATE Number=newData.Number, Name=newData.Name;";
