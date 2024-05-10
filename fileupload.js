@@ -107,11 +107,10 @@ export default class FileUpload extends BasicPage {
                 for (const project of projectdata) {
                     if (project.project === "Eindtotaal") {
                         project.project = 32750; // Magic number :(
-                        project.activity = 1;
                     }
 
                     if (isNaN(project.project) || isNaN(project.activity)) {
-                        console.error(`NAN: '${project.project}', '${project.activity}'`);
+                        console.error(`NAN project, activity: '${project.project}', '${project.activity}'`);
                         // TODO: need to do something here to make this clear to the user
                         continue;
                     }

@@ -25,8 +25,11 @@ CREATE TABLE `Activities` (
   `Rate` smallint DEFAULT NULL,
   `WBSO` varchar(20) DEFAULT NULL,
   `Key` smallint NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`Id`),
+  KEY `Project` (`Project`),
+  KEY `Key` (`Key`),
+  CONSTRAINT `Activities_ibfk_1` FOREIGN KEY (`Project`) REFERENCES `Projects` (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `Hours`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -37,7 +40,9 @@ CREATE TABLE `Hours` (
   `Person` smallint DEFAULT NULL,
   `Hours` int DEFAULT NULL,
   `Plan` int DEFAULT '0',
-  UNIQUE KEY `hoursIndex` (`Project`,`Activity`,`Person`)
+  UNIQUE KEY `hoursIndex` (`Project`,`Activity`,`Person`),
+  KEY `Activity` (`Activity`),
+  KEY `Person` (`Person`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `Personel`;
@@ -54,8 +59,11 @@ CREATE TABLE `Personel` (
   `Number` smallint DEFAULT NULL,
   `Ord` smallint DEFAULT '250',
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `Personel_UNIQUE` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=332 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `Personel_UNIQUE` (`Email`),
+  KEY `Type` (`Type`),
+  KEY `Number` (`Number`),
+  CONSTRAINT `Personel_ibfk_1` FOREIGN KEY (`Type`) REFERENCES `Types` (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `Projects`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -65,7 +73,9 @@ CREATE TABLE `Projects` (
   `Name` varchar(50) NOT NULL,
   `Status` tinyint DEFAULT '0',
   `Manager` smallint DEFAULT NULL,
-  PRIMARY KEY (`Id`)
+  PRIMARY KEY (`Id`),
+  KEY `Status` (`Status`),
+  KEY `Manager` (`Manager`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `Status`;
@@ -75,7 +85,7 @@ CREATE TABLE `Status` (
   `Id` tinyint NOT NULL AUTO_INCREMENT,
   `Status` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `Types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -84,7 +94,20 @@ CREATE TABLE `Types` (
   `Id` tinyint NOT NULL AUTO_INCREMENT,
   `Name` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `Status` (`Id`, `Status`) VALUES
+(1, 'Lead'),
+(2, 'Quote'),
+(3, 'Active'),
+(4, 'Closed');
+
+INSERT INTO `Types` (`Id`, `Name`) VALUES
+(1, 'User'),
+(2, 'Project Manager'),
+(3, 'Elevated'),
+(4, 'Administrator');
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

@@ -1,3 +1,5 @@
+/* mariadb-dump -P 3306 -h Host -u Username -p mis --password=Password -d --skip-comments > database2.sql */;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
